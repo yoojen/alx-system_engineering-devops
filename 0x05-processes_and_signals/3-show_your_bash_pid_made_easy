@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#Print all processp id that contain word bash
+pgrep -l bash

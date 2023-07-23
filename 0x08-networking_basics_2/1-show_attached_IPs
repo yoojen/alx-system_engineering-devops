@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#list all available ipv4
+ifconfig | awk -F "[: ]+" '/inet addr:/ { print $4 }'
