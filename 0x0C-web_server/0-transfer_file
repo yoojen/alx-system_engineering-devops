@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#This scripts transfer files to server
+
+file=$1
+ssh_file=$4
+ip_address=$2
+username=$3
+
+if [ $# -lt 4 ]; then
+	echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+else
+	#there is arguments
+	scp -o StrictHostKeyChecking=no -i "$ssh_file" "$file" "$username@$ip_address":~
+fi
