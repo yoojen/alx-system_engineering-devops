@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
-#install nginx
-apt-get udpate
-apt-get install -y nginx
-ufw allow 'Nginx HTTP'
 
-#create directory where our pages will be stored
-echo "301 Moved Permanently" > /etc/nginx/html/index.html
+# Update the apt package index and install nginx
+apt-get -y update
+apt-get -y install nginx
 
-sed -i '38i\rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4  permanent;' /etc/nginx/sites-available/default
-#reload nginx
+# Create a file called redirect.conf in the /etc/nginx/sites-available directory
+echo "server {
+  listen 80;
+
+  location /redirect_me {
+    return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+  }
+}" > /etc/nginx/sites-available/redirect.conf
+
+# Enable the redirect.conf file
+ln -s /etc/nginx/sites-available/redirect.conf /etc/nginx/sites-enabled/redirect.conf
+
+# Restart the nginx service
 service nginx restart
