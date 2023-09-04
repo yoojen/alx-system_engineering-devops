@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#verify and install haproxy
+sudo apt-get -y update
+sudo apt-get -y install haproxy
+
+ha_config_file=\
+"
+#configuring front end
+frontend localnodes
+        bind *:80
+        mode http
+        default_backend web-backend
+
+#configuring backend
+backend web-backend
+        balance roundrobin
+        server 306516-web-01 3.94.213.85:80 check
+        server 306516-web-02 34.227.93.137:80 check 
+"
+
+#writing configurations into the file
+echo "$ha_config_file" | sudo tee -a /etc/haproxy/haproxy.cfg
+
+# start by init script enabled
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+# test haproxy file before execution
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
+# reload nginx
+sudo service haproxy restart
