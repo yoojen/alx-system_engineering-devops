@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# shows information about the subdomains
+# Usage <> ./0-world_wide_web <domain> <subdomain>
+
+dig_subdomain(){
+    outp=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    echo "$2 $outp" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
+}
+# domain will come first subdomain when we pass two arguments
+
+if [ "$#" -eq 1 ]; then
+    dig_subdomain "$1" "www"
+    dig_subdomain "$1" "lb-01"
+    dig_subdomain "$1" "web-01"
+    dig_subdomain "$1" "web-02"
+elif [ "$#" -eq 2 ]; then
+    dig_subdomain "$1" "$2"
+fi
