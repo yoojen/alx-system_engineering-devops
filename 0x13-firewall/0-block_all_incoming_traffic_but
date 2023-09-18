@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#installing ufw firewall on web server
+sudo apt install ufw
+
+#replacing IPV6 content if founf in the ufw configuration file
+sudo sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufw
+
+#deny all incoming by default
+sudo ufw default deny incoming
+
+#allow all outgoing connections
+sudo ufw default allow outgoing
+
+#allowing ssh, https and http
+sudo ufw allow 22/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 80/tcp
+
+#estarting ufw
+sudo ufw enable
