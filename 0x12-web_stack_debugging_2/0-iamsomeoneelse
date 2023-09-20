@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#runs whoamai on each user passed as arg.
+sudo -u "$1" whoami
+
