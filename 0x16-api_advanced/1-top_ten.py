@@ -1,19 +1,18 @@
 #!/usr/bin/python3
-"""fetch api with not more thatn 10"""
+"""Function to print hot posts for a subreddit."""
 import requests
 
 
 def top_ten(subreddit):
-    """Queries the Reddit API and prints the titles of
-    the first 10 hot posts listed for a given subreddit.
-    """
-
-    response = requests.get('https://api.reddit.com/r/{}/hot/.json'
-                            .format(subreddit),  params={"limit": 10}, allow_redirects=False)
-     
-    if response.status_code != 200:
-        print(None)
-    else:
-        subreddit_info = response.json().get("data")
-        for sub in subreddit_indo.get("children"):
-            print(sub.get("data").get("title"))
+    """Print 10 hot post titles for a subreddit."""
+    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+    params = {
+        "limit": 10
+    }
+    response = requests.get(url, params=params,
+                            allow_redirects=False)
+    if response.status_code == 404:
+        print("None")
+        return
+    results = response.json().get("data")
+    [print(c.get("data").get("title")) for c in results.get("children")]
