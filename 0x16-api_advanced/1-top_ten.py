@@ -4,15 +4,16 @@ import requests
 
 
 def top_ten(subreddit):
-    """Print 10 hot post titles for a subreddit."""
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
-    params = {
-        "limit": 10
-    }
-    response = requests.get(url, params=params,
-                            allow_redirects=False)
-    if response.status_code == 404:
-        print("None")
-        return
-    results = response.json().get("data")
-    [print(c.get("data").get("title")) for c in results.get("children")]
+    """Returns top ten post
+
+    Keyword arguments:
+    subreddit -- topic to be searched on the reddit
+    Return: return title of post
+    """
+    url = "https://api.reddit.com/r/{}/hot.json".format(subreddit)
+    response = requests.get(url, params={"limit": 10}, allow_redirects=False)
+    if response.status_code != 200:
+        return 0
+    data = response.json().get('data').get('children')
+    for single in data:
+        print(single.get('data').get('title'))
