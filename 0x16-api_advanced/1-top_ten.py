@@ -13,7 +13,8 @@ def top_ten(subreddit):
     url = "https://api.reddit.com/r/{}/hot.json".format(subreddit)
     response = requests.get(url, params={"limit": 10}, allow_redirects=False)
     if response.status_code != 200:
-        return 0
-    data = response.json().get('data').get('children')
-    for single in data:
-        print(single.get('data').get('title'))
+        print(None)
+    else:
+        data = response.json().get('data').get('children')
+        for single in data:
+            print(single.get('data').get('title'))
