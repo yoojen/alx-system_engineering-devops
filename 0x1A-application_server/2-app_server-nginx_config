@@ -1,4 +1,5 @@
 #configure nginx on web-01 to serve /airbnb-onepage/from AirBnB_clone_v2
+
 server {
         listen 80 default_server;
         error_page 404 /404.html;
